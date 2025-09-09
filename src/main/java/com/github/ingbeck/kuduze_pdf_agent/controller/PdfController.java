@@ -16,13 +16,19 @@ public class PdfController {
     private final PdfService pdfService;
 
     @PostMapping(value = "/extract-fields", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public Map<String, Object> extractFields(@RequestParam("file") MultipartFile file) {
-        return pdfService.extractFields(file);
+    public ResponseEntity<Map<String, Object>> extractFields(@RequestParam("file") MultipartFile file) {
+        if (file == null || file.isEmpty()) {
+            return ResponseEntity.badRequest().body(Map.of("error", "PDF-Datei fehlt oder ist leer."));
+        }
+        return ResponseEntity.ok(pdfService.extractFields(file));
     }
 
     @PostMapping(value = "/extract-field-values", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public Map<String, String> extractFieldValues(@RequestParam("file") MultipartFile file) {
-        return pdfService.extractFieldValues(file);
+    public ResponseEntity<Map<String, String>> extractFieldValues(@RequestParam("file") MultipartFile file) {
+        if (file == null || file.isEmpty()) {
+            return ResponseEntity.badRequest().body(Map.of("error", "PDF-Datei fehlt oder ist leer."));
+        }
+        return ResponseEntity.ok(pdfService.extractFieldValues(file));
     }
 
     @PostMapping(value = "/fill-pdf", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
@@ -30,7 +36,12 @@ public class PdfController {
             @RequestParam("file") MultipartFile pdfFile,
             @RequestParam("data") String jsonData) {
 
+        if (pdfFile == null || pdfFile.isEmpty() || pdfFile.getSize() == 0) {
+            return ResponseEntity.badRequest().body("PDF-Datei fehlt oder ist leer.".getBytes());
+        }
+        if (jsonData == null || jsonData.isBlank()) {
+            return ResponseEntity.badRequest().body("JSON-Daten fehlen.".getBytes());
+        }
         return pdfService.fillPdfForm(pdfFile, jsonData);
-
     }
 }
