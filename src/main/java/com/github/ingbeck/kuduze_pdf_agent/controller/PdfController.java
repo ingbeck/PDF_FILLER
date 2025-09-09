@@ -15,7 +15,6 @@ import java.util.*;
 public class PdfController {
 
     private final PdfService pdfService;
-    private final ObjectMapper objectMapper = new ObjectMapper();
 
     @PostMapping(value = "/extract-fields", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public Map<String, Object> extractFields(@RequestParam("file") MultipartFile file) {

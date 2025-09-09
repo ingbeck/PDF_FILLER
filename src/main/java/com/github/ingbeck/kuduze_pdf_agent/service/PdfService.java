@@ -66,7 +66,7 @@ public class PdfService {
                     }
                 }
             } catch (Exception e) {
-                // Fehlerbehandlung nach Bedarf
+                fieldValues.put("error", e.getMessage());
             }
             return fieldValues;
 
@@ -82,10 +82,8 @@ public class PdfService {
             MultipartFile pdfFile,
             String jsonData) {
         try {
-            // JSON in Map umwandeln
             Map<String, String> fieldValues = objectMapper.readValue(jsonData, Map.class);
 
-            // PDF laden
             PDDocument pdf = PDDocument.load(pdfFile.getInputStream());
             PDAcroForm form = pdf.getDocumentCatalog().getAcroForm();
 
@@ -95,7 +93,6 @@ public class PdfService {
                         .body("PDF enthält keine ausfüllbaren Formularfelder.".getBytes());
             }
 
-            // Felder befüllen
             for (Map.Entry<String, String> entry : fieldValues.entrySet()) {
                 PDField field = form.getField(entry.getKey());
                 if (field != null) {
@@ -103,12 +100,10 @@ public class PdfService {
                 }
             }
 
-            // PDF in Byte-Array speichern
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
             pdf.save(baos);
             pdf.close();
 
-            // Antwort mit PDF-Daten und Headern
             return ResponseEntity.ok()
                     .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=filled_form.pdf")
                     .contentType(MediaType.APPLICATION_PDF)
