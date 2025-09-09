@@ -9,7 +9,7 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.github.ingbeck</groupId>
-    <artifactId>KUDUZE_PDF_AGENT</artifactId>
+    <artifactId>PDF_FILLER</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>KUDUZE_PDF_AGENT</name>
     <description>KUDUZE_PDF_AGENT</description>
@@ -51,6 +51,12 @@
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>org.apache.pdfbox</groupId>
+            <artifactId>pdfbox</artifactId>
+            <version>2.0.29</version>
+        </dependency>
+
     </dependencies>
 
     <build>
