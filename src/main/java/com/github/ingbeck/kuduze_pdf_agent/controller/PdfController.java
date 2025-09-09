@@ -1,6 +1,5 @@
 package com.github.ingbeck.kuduze_pdf_agent.controller;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.ingbeck.kuduze_pdf_agent.service.PdfService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
