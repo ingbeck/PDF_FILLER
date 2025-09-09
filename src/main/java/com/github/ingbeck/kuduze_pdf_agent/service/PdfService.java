@@ -1,5 +1,6 @@
 package com.github.ingbeck.kuduze_pdf_agent.service;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.interactive.form.PDAcroForm;
@@ -82,7 +83,7 @@ public class PdfService {
             MultipartFile pdfFile,
             String jsonData) {
         try {
-            Map<String, String> fieldValues = objectMapper.readValue(jsonData, Map.class);
+            Map<String, String> fieldValues = objectMapper.readValue(jsonData, new TypeReference<>() {});
 
             PDDocument pdf = PDDocument.load(pdfFile.getInputStream());
             PDAcroForm form = pdf.getDocumentCatalog().getAcroForm();
